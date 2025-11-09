@@ -97,45 +97,90 @@ await db.books.insert_one({'title': 'Book'})
 
 ### 2. test_connection.py
 **Type**: Automated (pytest)  
-**Purpose**: Verify MongoDB connection and settings configuration
+**Purpose**: Verify MongoDB connection and settings configuration for both crawler and scheduler
 
 **Database Type**: Real MongoDB Instance  
 **Execution Mode**: Automated with pytest
 
 **Test Functions:**
 
-#### `test_connection()`
-Tests MongoDB connectivity and basic operations.
+#### `test_crawler_connection()`
+Tests MongoDB connectivity for the crawler component.
 
 **What It Tests:**
-1. Settings loading from `.env` file
+1. Crawler settings loading from `.env` file (uses `mongo_uri`)
 2. MongoDB connection establishment
 3. Database access permissions
 4. Collection creation capability
 5. Collection cleanup
 
-**How It Works:**
-```python
-1. Load settings from environment
-2. Create MongoDB client
-3. Ping MongoDB server
-4. Create test collection
-5. Drop test collection
-6. Assert success
+**Expected Results:**
 ```
+✓ Crawler: Successfully connected to MongoDB
+✓ Crawler: Successfully created test collection
+✓ Crawler: Successfully cleaned up test collection
+PASSED
+```
+
+#### `test_scheduler_connection()`
+Tests MongoDB connectivity for the scheduler component.
+
+**What It Tests:**
+1. Scheduler settings loading from `.env` file (uses `mongodb_url`)
+2. MongoDB connection establishment
+3. Database access to 'books' database
+4. Collection creation capability
+5. Collection cleanup
 
 **Expected Results:**
 ```
-✓ Successfully connected to MongoDB
-✓ Successfully created test collection
-✓ Successfully cleaned up test collection
+✓ Scheduler: Successfully connected to MongoDB
+✓ Scheduler: Successfully created test collection
+✓ Scheduler: Successfully cleaned up test collection
 PASSED
+```
+
+#### `test_both_connections()`
+Tests that both crawler and scheduler can connect simultaneously.
+
+**What It Tests:**
+1. Crawler and scheduler settings loaded independently
+2. Both can establish connections at the same time
+3. No connection conflicts between components
+
+**Expected Results:**
+```
+✓ Both crawler and scheduler successfully connected to MongoDB
+PASSED
+```
+
+**How It Works:**
+```python
+1. Load crawler settings (mongo_uri) and scheduler settings (mongodb_url)
+2. Create separate MongoDB clients for each
+3. Ping MongoDB server for both connections
+4. Create test collections in respective databases
+5. Drop test collections
+6. Close connections
+7. Assert success
+```
+
+**Complete Expected Output:**
+```
+tests/test_connection.py::test_crawler_connection PASSED      [ 33%]
+tests/test_connection.py::test_scheduler_connection PASSED    [ 66%]
+tests/test_connection.py::test_both_connections PASSED        [100%]
+
+========== 3 passed in 0.68s ==========
 ```
 
 **How to Run:**
 ```bash
-# Run connection test
+# Run all connection tests
 python -m pytest tests/test_connection.py -v
+
+# Run specific test
+python -m pytest tests/test_connection.py::test_crawler_connection -v
 
 # With detailed output
 python -m pytest tests/test_connection.py -v -s
@@ -143,13 +188,20 @@ python -m pytest tests/test_connection.py -v -s
 
 **Prerequisites:**
 - MongoDB server running
-- Valid `.env` configuration
+- Valid `.env` configuration with both `mongo_uri` and `mongodb_url`
 - Network connectivity to MongoDB
+
+**Required .env Variables:**
+```env
+mongo_uri=mongodb://localhost:27017/books      # For crawler
+mongodb_url=mongodb://localhost:27017          # For scheduler
+```
 
 **Common Issues:**
 - Connection refused: MongoDB not running
-- Authentication failed: Check credentials
-- Database access denied: Check permissions
+- Authentication failed: Check credentials in `.env`
+- Database access denied: Check MongoDB user permissions
+- Missing .env variables: Ensure both `mongo_uri` and `mongodb_url` are set
 
 ---
 
