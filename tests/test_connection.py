@@ -1,5 +1,6 @@
 """Quick test to verify MongoDB connection and settings."""
-import asyncio
+import pytest
+import pytest_asyncio
 from motor.motor_asyncio import AsyncIOMotorClient
 from crawler.settings import Settings
 import logging
@@ -7,6 +8,7 @@ import logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
+@pytest.mark.asyncio
 async def test_connection():
     settings = Settings()
     logger.info(f"Loaded settings: {settings.dict()}")
@@ -27,9 +29,8 @@ async def test_connection():
         await db.drop_collection('test_collection')
         logger.info("✓ Successfully cleaned up test collection")
         
+        assert True, "MongoDB connection test successful"
+        
     except Exception as e:
         logger.error(f"Connection test failed: {str(e)}")
         raise
-
-if __name__ == "__main__":
-    asyncio.run(test_connection())

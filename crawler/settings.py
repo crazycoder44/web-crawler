@@ -2,13 +2,17 @@ from pydantic_settings import BaseSettings
 from pydantic import field_validator
 from typing import Union
 
+from pydantic import ConfigDict
+
 class Settings(BaseSettings):
-    mongo_uri: str
+    model_config = ConfigDict(env_file='.env', extra='allow')
+
+    mongo_uri: str = "mongodb://localhost:27017/books"
     max_concurrency: int = 10
     request_timeout: int = 10
     retry_attempts: int = 5
     request_interval: float = 1.0  # Time between requests in seconds
-    user_agent: str = "BooksCrawler/1.0"
+    user_agent: str = "BooksCrawler/1.0 (+https://github.com/crazycoder44/)"
     store_html_in_gridfs: bool = True
 
     @field_validator('max_concurrency')
@@ -42,6 +46,3 @@ class Settings(BaseSettings):
         if v > 10.0:
             raise ValueError("request_interval should not exceed 10 seconds")
         return v
-
-    class Config:
-        env_file = ".env"

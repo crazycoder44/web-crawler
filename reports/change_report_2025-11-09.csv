@@ -1,0 +1,8 @@
+Date,Change Type,Book Title,Old Value,New Value,Timestamp
+2025-11-09,price,Python Programming,29.99,24.99,2025-11-09 01:00:00
+2025-11-09,price,Python Programming,24.99,19.99,2025-11-09 15:13:02.287000
+2025-11-09,price,Python Programming,29.99,24.99,2025-11-09 01:00:00
+2025-11-09,availability,Web Scraping Guide,in_stock,out_of_stock,2025-11-09 02:00:00
+2025-11-09,availability,Web Scraping Guide,in_stock,out_of_stock,2025-11-09 02:00:00
+2025-11-09,title,Python Programming,Python Programming,Python Programming (2nd Edition),2025-11-09 03:00:00
+2025-11-09,title,Python Programming,Python Programming,Python Programming (2nd Edition),2025-11-09 03:00:00

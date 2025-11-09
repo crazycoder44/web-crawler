@@ -1,0 +1,70 @@
+{
+  "date": "2025-11-09",
+  "total_changes": 7,
+  "changes_by_type": {
+    "price": {
+      "count": 3,
+      "details": [
+        {
+          "book_title": "Python Programming",
+          "book_id": "6910af7e9705419fb6879feb",
+          "old_value": "29.99",
+          "new_value": "24.99",
+          "timestamp": "2025-11-09 01:00:00"
+        },
+        {
+          "book_title": "Python Programming",
+          "book_id": "6910af7e9705419fb6879feb",
+          "old_value": "24.99",
+          "new_value": "19.99",
+          "timestamp": "2025-11-09 15:13:02.287000"
+        },
+        {
+          "book_title": "Python Programming",
+          "book_id": "6910af9a34fcea4cfde9c00d",
+          "old_value": "29.99",
+          "new_value": "24.99",
+          "timestamp": "2025-11-09 01:00:00"
+        }
+      ]
+    },
+    "availability": {
+      "count": 2,
+      "details": [
+        {
+          "book_title": "Web Scraping Guide",
+          "book_id": "6910af7e9705419fb6879fec",
+          "old_value": "in_stock",
+          "new_value": "out_of_stock",
+          "timestamp": "2025-11-09 02:00:00"
+        },
+        {
+          "book_title": "Web Scraping Guide",
+          "book_id": "6910af9a34fcea4cfde9c00e",
+          "old_value": "in_stock",
+          "new_value": "out_of_stock",
+          "timestamp": "2025-11-09 02:00:00"
+        }
+      ]
+    },
+    "title": {
+      "count": 2,
+      "details": [
+        {
+          "book_title": "Python Programming",
+          "book_id": "6910af7e9705419fb6879feb",
+          "old_value": "Python Programming",
+          "new_value": "Python Programming (2nd Edition)",
+          "timestamp": "2025-11-09 03:00:00"
+        },
+        {
+          "book_title": "Python Programming",
+          "book_id": "6910af9a34fcea4cfde9c00d",
+          "old_value": "Python Programming",
+          "new_value": "Python Programming (2nd Edition)",
+          "timestamp": "2025-11-09 03:00:00"
+        }
+      ]
+    }
+  }
+}

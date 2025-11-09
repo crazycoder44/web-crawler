@@ -24,36 +24,19 @@ class MongoStore:
     async def init_indexes(self):
         """Create required indexes for all collections."""
         # Books collection indexes
+        from pymongo import IndexModel
+        # Create IndexModel instances for each index
         await self.books.create_indexes([
-            {
-                'key': [('source_url', 1)],
-                'unique': True,
-                'name': 'unique_source_url'
-            },
-            {
-                'key': [('category', 1)],
-                'name': 'category_lookup'
-            },
-            {
-                'key': [('price_incl_tax', 1)],
-                'name': 'price_lookup'
-            },
-            {
-                'key': [('rating', 1)],
-                'name': 'rating_lookup'
-            },
-            {
-                'key': [('crawl_timestamp', -1)],
-                'name': 'crawl_time_lookup'
-            }
+            IndexModel([('source_url', 1)], unique=True, name='unique_source_url'),
+            IndexModel([('category', 1)], name='category_lookup'),
+            IndexModel([('price_incl_tax', 1)], name='price_lookup'),
+            IndexModel([('rating', 1)], name='rating_lookup'),
+            IndexModel([('crawl_timestamp', -1)], name='crawl_time_lookup')
         ])
         
         # Book changes collection index
         await self.changes.create_indexes([
-            {
-                'key': [('book_id', 1), ('timestamp', -1)],
-                'name': 'book_changes_lookup'
-            }
+            IndexModel([('book_id', 1), ('timestamp', -1)], name='book_changes_lookup')
         ])
         
         # Checkpoints collection index
