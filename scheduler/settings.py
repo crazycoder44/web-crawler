@@ -2,6 +2,9 @@
 
 """
 Configuration settings for the scheduler module.
+
+IMPORTANT: Do not hardcode credentials in this file.
+All values must be set in .env file for security.
 """
 
 from pydantic_settings import BaseSettings
@@ -11,10 +14,13 @@ from typing import Optional, Literal
 
 
 class Settings(BaseSettings):
-    """Settings for the scheduler module."""
-    model_config = ConfigDict(env_file='.env', extra='allow')
+    """Settings for the scheduler module loaded from .env file."""
+    model_config = ConfigDict(env_file='.env', extra='allow', env_file_encoding='utf-8')
 
-    mongodb_url: str = 'mongodb://localhost:27017'
+    # MongoDB connection (REQUIRED - no default for security)
+    mongodb_url: str
+    
+    # Scheduler settings
     reports_dir: str = './reports'
     crawl_interval: int = 3600  # Default: 1 hour in seconds
     logging_level: Literal['DEBUG', 'INFO', 'WARNING', 'ERROR', 'CRITICAL'] = 'INFO'

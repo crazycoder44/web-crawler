@@ -5,14 +5,27 @@ from typing import Union
 from pydantic import ConfigDict
 
 class Settings(BaseSettings):
-    model_config = ConfigDict(env_file='.env', extra='allow')
+    """
+    Crawler settings loaded from .env file.
+    
+    IMPORTANT: Do not hardcode credentials in this file.
+    All values must be set in .env file for security.
+    """
+    model_config = ConfigDict(env_file='.env', extra='allow', env_file_encoding='utf-8')
 
-    mongo_uri: str = "mongodb://localhost:27017/books"
+    # MongoDB connection string (REQUIRED - no default for security)
+    mongo_uri: str
+    
+    # Crawler performance settings
     max_concurrency: int = 10
     request_timeout: int = 10
     retry_attempts: int = 5
-    request_interval: float = 1.0  # Time between requests in seconds
-    user_agent: str = "BooksCrawler/1.0 (+https://github.com/crazycoder44/)"
+    request_interval: float = 1.0
+    
+    # Crawler identity
+    user_agent: str = "BooksCrawler/1.0"
+    
+    # Storage settings
     store_html_in_gridfs: bool = True
 
     @field_validator('max_concurrency')
