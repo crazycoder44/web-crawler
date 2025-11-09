@@ -23,8 +23,6 @@ build/
 *.swp
 *.swo
 
-# Logs
-*.log
 
 # Local development settings
 .env.local

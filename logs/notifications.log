@@ -1,0 +1,190 @@
+2025-11-09 15:36:15,013 - INFO - NOTIFICATION:
+==================================================
+To: admin@example.com
+Subject: CRITICAL Error in full_site_scan: execution_error
+==================================================
+
+
+<h2>System Error Alert</h2>
+<p>An error has occurred in the book monitoring system:</p>
+<ul>
+    <li>Component: full_site_scan</li>
+    <li>Error Type: execution_error</li>
+    <li>Timestamp: 2025-11-09T14:36:15.013117</li>
+</ul>
+<p>Error Details:</p>
+<pre>Crawler error</pre>
+
+==================================================
+
+2025-11-09 15:36:15,013 - INFO - NOTIFICATION:
+==================================================
+To: admin@example.com
+Subject: CRITICAL Error in full_site_scan: execution_error
+==================================================
+
+
+<h2>System Error Alert</h2>
+<p>An error has occurred in the book monitoring system:</p>
+<ul>
+    <li>Component: full_site_scan</li>
+    <li>Error Type: execution_error</li>
+    <li>Timestamp: 2025-11-09T14:36:15.013117</li>
+</ul>
+<p>Error Details:</p>
+<pre>Crawler error</pre>
+
+==================================================
+
+2025-11-09 15:36:15,013 - INFO - NOTIFICATION:
+==================================================
+To: admin@example.com
+Subject: CRITICAL Error in full_site_scan: execution_error
+==================================================
+
+
+<h2>System Error Alert</h2>
+<p>An error has occurred in the book monitoring system:</p>
+<ul>
+    <li>Component: full_site_scan</li>
+    <li>Error Type: execution_error</li>
+    <li>Timestamp: 2025-11-09T14:36:15.013117</li>
+</ul>
+<p>Error Details:</p>
+<pre>Crawler error</pre>
+
+==================================================
+
+2025-11-09 15:36:15,013 - INFO - NOTIFICATION:
+==================================================
+To: admin@example.com
+Subject: CRITICAL Error in full_site_scan: execution_error
+==================================================
+
+
+<h2>System Error Alert</h2>
+<p>An error has occurred in the book monitoring system:</p>
+<ul>
+    <li>Component: full_site_scan</li>
+    <li>Error Type: execution_error</li>
+    <li>Timestamp: 2025-11-09T14:36:15.013117</li>
+</ul>
+<p>Error Details:</p>
+<pre>Crawler error</pre>
+
+==================================================
+
+2025-11-09 15:36:15,013 - INFO - NOTIFICATION:
+==================================================
+To: admin@example.com
+Subject: CRITICAL Error in full_site_scan: execution_error
+==================================================
+
+
+<h2>System Error Alert</h2>
+<p>An error has occurred in the book monitoring system:</p>
+<ul>
+    <li>Component: full_site_scan</li>
+    <li>Error Type: execution_error</li>
+    <li>Timestamp: 2025-11-09T14:36:15.013117</li>
+</ul>
+<p>Error Details:</p>
+<pre>Crawler error</pre>
+
+==================================================
+
+2025-11-09 15:36:15,013 - INFO - NOTIFICATION:
+==================================================
+To: admin@example.com
+Subject: CRITICAL Error in full_site_scan: execution_error
+==================================================
+
+
+<h2>System Error Alert</h2>
+<p>An error has occurred in the book monitoring system:</p>
+<ul>
+    <li>Component: full_site_scan</li>
+    <li>Error Type: execution_error</li>
+    <li>Timestamp: 2025-11-09T14:36:15.013117</li>
+</ul>
+<p>Error Details:</p>
+<pre>Crawler error</pre>
+
+==================================================
+
+2025-11-09 15:36:15,013 - INFO - NOTIFICATION:
+==================================================
+To: admin@example.com
+Subject: CRITICAL Error in full_site_scan: execution_error
+==================================================
+
+
+<h2>System Error Alert</h2>
+<p>An error has occurred in the book monitoring system:</p>
+<ul>
+    <li>Component: full_site_scan</li>
+    <li>Error Type: execution_error</li>
+    <li>Timestamp: 2025-11-09T14:36:15.013117</li>
+</ul>
+<p>Error Details:</p>
+<pre>Crawler error</pre>
+
+==================================================
+
+2025-11-09 15:36:15,013 - INFO - NOTIFICATION:
+==================================================
+To: admin@example.com
+Subject: CRITICAL Error in full_site_scan: execution_error
+==================================================
+
+
+<h2>System Error Alert</h2>
+<p>An error has occurred in the book monitoring system:</p>
+<ul>
+    <li>Component: full_site_scan</li>
+    <li>Error Type: execution_error</li>
+    <li>Timestamp: 2025-11-09T14:36:15.013117</li>
+</ul>
+<p>Error Details:</p>
+<pre>Crawler error</pre>
+
+==================================================
+
+2025-11-09 16:13:30,069 - INFO - NOTIFICATION:
+==================================================
+To: admin@example.com
+Subject: Price Alert: Python Programming price changed by -20.0%
+==================================================
+
+
+<h2>Book Price Change Alert</h2>
+<p>The following book has had a significant price change:</p>
+<ul>
+    <li>Title: Python Programming</li>
+    <li>Previous Price: $24.99</li>
+    <li>New Price: $19.99</li>
+    <li>Change Percentage: -20.0%</li>
+</ul>
+<p>View more details in the daily report.</p>
+
+==================================================
+
+2025-11-09 16:13:30,069 - INFO - NOTIFICATION:
+==================================================
+To: admin@example.com
+Subject: Price Alert: Python Programming price changed by -20.0%
+==================================================
+
+
+<h2>Book Price Change Alert</h2>
+<p>The following book has had a significant price change:</p>
+<ul>
+    <li>Title: Python Programming</li>
+    <li>Previous Price: $24.99</li>
+    <li>New Price: $19.99</li>
+    <li>Change Percentage: -20.0%</li>
+</ul>
+<p>View more details in the daily report.</p>
+
+==================================================
+
