@@ -1,0 +1,173 @@
+{
+  "description": "Sample MongoDB document structures for the Books to Scrape web crawler project",
+  "database": "books",
+  "collections": {
+    "books": {
+      "description": "Stores crawled book information",
+      "sample_document": {
+        "_id": "673fa123456789abcdef0001",
+        "url": "https://books.toscrape.com/catalogue/a-light-in-the-attic_1000/index.html",
+        "title": "A Light in the Attic",
+        "price": 51.77,
+        "availability": "In stock (22 available)",
+        "rating": 3,
+        "num_reviews": 0,
+        "description": "It's hard to imagine a world without A Light in the Attic. This now-classic collection of poetry and drawings from Shel Silverstein celebrates its 20th anniversary with this special edition.",
+        "upc": "a897fe39b1053632",
+        "category": "Poetry",
+        "product_type": "Books",
+        "price_excl_tax": 51.77,
+        "price_incl_tax": 51.77,
+        "tax": 0.0,
+        "num_available": 22,
+        "image_url": "https://books.toscrape.com/media/cache/2c/da/2cdad67c44b002e7ead0cc35693c0e8b.jpg",
+        "crawled_at": "2025-11-10T02:54:27.123Z",
+        "last_updated": "2025-11-10T02:54:27.123Z",
+        "fingerprint": "8a3f2c1e9b7d6f4a2e1c9b8a7f6e5d4c"
+      },
+      "indexes": [
+        {"url": 1, "unique": true},
+        {"upc": 1, "unique": true},
+        {"title": "text"},
+        {"category": 1},
+        {"crawled_at": -1},
+        {"category": 1, "crawled_at": -1}
+      ]
+    },
+    "book_changes": {
+      "description": "Tracks all changes detected in book data over time",
+      "sample_document": {
+        "_id": "673fa123456789abcdef0002",
+        "book_id": "673fa123456789abcdef0001",
+        "url": "https://books.toscrape.com/catalogue/a-light-in-the-attic_1000/index.html",
+        "upc": "a897fe39b1053632",
+        "title": "A Light in the Attic",
+        "changes": [
+          {
+            "field": "price",
+            "old_value": 51.77,
+            "new_value": 45.50,
+            "change_type": "modified"
+          },
+          {
+            "field": "num_available",
+            "old_value": 22,
+            "new_value": 18,
+            "change_type": "modified"
+          }
+        ],
+        "change_summary": "2 fields changed",
+        "detected_at": "2025-11-10T03:15:42.456Z",
+        "severity": "medium",
+        "fingerprint_old": "8a3f2c1e9b7d6f4a2e1c9b8a7f6e5d4c",
+        "fingerprint_new": "7b2e1d0c8a6f5e4d3c2b1a0f9e8d7c6b"
+      },
+      "indexes": [
+        {"url": 1},
+        {"detected_at": -1},
+        {"url": 1, "detected_at": -1}
+      ]
+    },
+    "change_records": {
+      "description": "Individual change records for granular change tracking",
+      "sample_document": {
+        "_id": "673fa123456789abcdef0003",
+        "book_id": "673fa123456789abcdef0001",
+        "url": "https://books.toscrape.com/catalogue/a-light-in-the-attic_1000/index.html",
+        "field_name": "price",
+        "old_value": 51.77,
+        "new_value": 45.50,
+        "change_type": "price_decrease",
+        "detected_at": "2025-11-10T03:15:42.456Z",
+        "change_percentage": -12.12,
+        "metadata": {
+          "severity": "medium",
+          "alert_sent": false,
+          "crawl_run_id": "run_20251110_031542"
+        }
+      },
+      "indexes": [
+        {"book_id": 1, "detected_at": -1},
+        {"change_type": 1},
+        {"detected_at": -1}
+      ]
+    },
+    "checkpoints": {
+      "description": "Stores crawler resume checkpoints for fault tolerance",
+      "sample_document": {
+        "_id": "673fa123456789abcdef0004",
+        "checkpoint_id": "checkpoint_20251110_025427",
+        "url": "https://books.toscrape.com/catalogue/page-15.html",
+        "category": "Fiction",
+        "books_processed": 720,
+        "categories_completed": ["Poetry", "Fantasy", "Science Fiction"],
+        "created_at": "2025-11-10T02:54:27.789Z",
+        "status": "active",
+        "metadata": {
+          "total_categories": 50,
+          "estimated_total_books": 1000,
+          "progress_percentage": 72.0
+        }
+      },
+      "indexes": [
+        {"checkpoint_id": 1, "unique": true},
+        {"created_at": -1},
+        {"status": 1}
+      ]
+    },
+    "fs.files": {
+      "description": "GridFS metadata for stored HTML snapshots (GridFS system collection)",
+      "sample_document": {
+        "_id": "673fa123456789abcdef0005",
+        "length": 15234,
+        "chunkSize": 261120,
+        "uploadDate": "2025-11-10T02:54:27.123Z",
+        "filename": "a-light-in-the-attic_1000.html",
+        "metadata": {
+          "url": "https://books.toscrape.com/catalogue/a-light-in-the-attic_1000/index.html",
+          "book_id": "673fa123456789abcdef0001",
+          "content_type": "text/html",
+          "crawled_at": "2025-11-10T02:54:27.123Z",
+          "status_code": 200,
+          "encoding": "utf-8"
+        }
+      }
+    },
+    "fs.chunks": {
+      "description": "GridFS chunks for stored HTML snapshots (GridFS system collection)",
+      "sample_document": {
+        "_id": "673fa123456789abcdef0006",
+        "files_id": "673fa123456789abcdef0005",
+        "n": 0,
+        "data": {
+          "$binary": {
+            "base64": "PCFET0NUWVBFIGh0bWw+PGh0bWw+Li4uPC9odG1sPg==",
+            "subType": "00"
+          }
+        }
+      }
+    }
+  },
+  "statistics": {
+    "total_books": 1000,
+    "total_categories": 50,
+    "books_with_changes": 150,
+    "total_change_records": 450,
+    "html_snapshots_stored": 1000,
+    "last_crawl": "2025-11-10T02:54:27Z",
+    "database_size_mb": 125.6
+  },
+  "relationships": {
+    "books_to_book_changes": "One-to-Many (linked by url/upc)",
+    "books_to_change_records": "One-to-Many (linked by book_id)",
+    "books_to_html_snapshots": "One-to-One (linked via GridFS metadata.book_id)",
+    "checkpoints_to_books": "One-to-Many (checkpoint tracks progress of multiple books)"
+  },
+  "notes": {
+    "date_format": "All dates stored as ISODate in UTC timezone",
+    "decimal_precision": "Prices stored as float64 with 2 decimal precision",
+    "gridfs_usage": "HTML snapshots stored in GridFS for fallback parsing",
+    "fingerprinting": "SHA256 hash of serialized book data for change detection",
+    "indexes": "All collections have appropriate indexes for query optimization"
+  }
+}

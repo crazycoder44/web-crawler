@@ -188,3 +188,22 @@ Subject: Price Alert: Python Programming price changed by -20.0%
 
 ==================================================
 
+2025-11-10 03:39:04,086 - INFO - NOTIFICATION:
+==================================================
+To: admin@example.com
+Subject: Price Alert: Test Book price changed by 25.0%
+==================================================
+
+
+<h2>Book Price Change Alert</h2>
+<p>The following book has had a significant price change:</p>
+<ul>
+    <li>Title: Test Book</li>
+    <li>Previous Price: $19.99</li>
+    <li>New Price: $24.99</li>
+    <li>Change Percentage: 25.0%</li>
+</ul>
+<p>View more details in the daily report.</p>
+
+==================================================
+

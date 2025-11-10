@@ -1,0 +1,18 @@
+{
+  "date": "2025-11-10",
+  "total_changes": 1,
+  "changes_by_type": {
+    "price": {
+      "count": 1,
+      "details": [
+        {
+          "book_title": "Unknown",
+          "book_id": "507f1f77bcf86cd799439011",
+          "old_value": "19.99",
+          "new_value": "24.99",
+          "timestamp": "2025-11-10 02:39:04.034000"
+        }
+      ]
+    }
+  }
+}
