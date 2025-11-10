@@ -5,7 +5,7 @@ Manages scheduled crawling and change detection.
 """
 
 import asyncio
-import logging.config
+import logging
 import sys
 from pathlib import Path
 
@@ -13,12 +13,10 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).parent))
 
 from src.scheduler.scheduler import run_scheduler
-from src.scheduler.logging_config import LOGGING_CONFIG
+import src.scheduler.logging_config  # Import to initialize loggers
 
 def main():
     """Configure logging and start the scheduler."""
-    # Configure logging
-    logging.config.dictConfig(LOGGING_CONFIG)
     logger = logging.getLogger('scheduler')
     
     logger.info("Starting scheduler service...")

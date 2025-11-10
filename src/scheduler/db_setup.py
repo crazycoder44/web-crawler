@@ -7,6 +7,7 @@ Extends the crawler's existing schema with additional indexes and fields needed 
 
 from typing import Optional
 from motor.motor_asyncio import AsyncIOMotorClient
+from pymongo import IndexModel
 import logging
 from datetime import datetime
 
@@ -26,18 +27,18 @@ class SchedulerStore(MongoStore):
         try:
             # Create compound index for change tracking with TTL
             await self.changes.create_indexes([
-                {
-                    'key': [
+                IndexModel(
+                    [
                         ('timestamp', -1),
                         ('change_type', 1)
                     ],
-                    'name': 'scheduler_changes_lookup'
-                },
-                {
-                    'key': [('timestamp', 1)],
-                    'name': 'changes_ttl',
-                    'expireAfterSeconds': 30 * 24 * 60 * 60  # 30 days
-                }
+                    name='scheduler_changes_lookup'
+                ),
+                IndexModel(
+                    [('timestamp', 1)],
+                    name='changes_ttl',
+                    expireAfterSeconds=30 * 24 * 60 * 60  # 30 days
+                )
             ])
 
             # Add index for consolidated changes
