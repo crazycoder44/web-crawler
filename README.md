@@ -1,4 +1,4 @@
-# 📚 Books to Scrape - Web Crawler & RESTful API
+# Books to Scrape - Web Crawler & RESTful API
 
 A comprehensive web scraping and data management system for [Books to Scrape](http://books.toscrape.com), featuring an advanced crawler, change detection, and a production-ready RESTful API.
 
@@ -9,7 +9,7 @@ A comprehensive web scraping and data management system for [Books to Scrape](ht
 
 ---
 
-## 📋 Table of Contents
+## Table of Contents
 
 - [Overview](#-overview)
 - [Features](#-features)
@@ -31,7 +31,7 @@ A comprehensive web scraping and data management system for [Books to Scrape](ht
 
 ---
 
-## 🎯 Overview
+## Overview
 
 This project provides a complete solution for scraping, storing, and serving book catalog data through a RESTful API. It consists of three main components:
 
@@ -48,39 +48,39 @@ This project provides a complete solution for scraping, storing, and serving boo
 
 ---
 
-## ✨ Features
+## Features
 
 ### Web Crawler
-- ✅ **Asynchronous scraping** with configurable concurrency
-- ✅ **Robust error handling** with retry logic and exponential backoff
-- ✅ **Rate limiting** to respect server resources
-- ✅ **HTML storage** in MongoDB GridFS for archival
-- ✅ **Comprehensive logging** with rotation and JSON format support
-- ✅ **Scheduled execution** with flexible intervals
+- **Asynchronous scraping** with configurable concurrency
+- **Robust error handling** with retry logic and exponential backoff
+- **Rate limiting** to respect server resources
+- **HTML storage** in MongoDB GridFS for archival
+- **Comprehensive logging** with rotation and JSON format support
+- **Scheduled execution** with flexible intervals
 
 ### Change Detection
-- ✅ **Real-time monitoring** of price and availability changes
-- ✅ **Historical tracking** with timestamps and old/new value comparison
-- ✅ **Diff generation** for content changes
-- ✅ **Change types**: Insert, Update, Delete detection
+- **Real-time monitoring** of price and availability changes
+- **Historical tracking** with timestamps and old/new value comparison
+- **Diff generation** for content changes
+- **Change types**: Insert, Update, Delete detection
 
 ### RESTful API
-- ✅ **FastAPI framework** with automatic OpenAPI documentation
-- ✅ **API key authentication** with SHA-256 hashing
-- ✅ **Rate limiting** (100 req/hour per key) with sliding window
-- ✅ **Advanced filtering** by category, price, rating, availability
-- ✅ **Full-text search** across titles and descriptions
-- ✅ **Multiple sort options** (recent, title, price, rating)
-- ✅ **Pagination** with metadata (total, pages, has_next/prev)
-- ✅ **Change history API** with time-based filtering
-- ✅ **CORS support** for frontend integration
-- ✅ **Comprehensive error handling** with consistent responses
-- ✅ **Health check endpoint** for monitoring
-- ✅ **Request logging** with execution time tracking
+- **FastAPI framework** with automatic OpenAPI documentation
+- **API key authentication** with SHA-256 hashing
+- **Rate limiting** (100 req/hour per key) with sliding window
+- **Advanced filtering** by category, price, rating, availability
+- **Full-text search** across titles and descriptions
+- **Multiple sort options** (recent, title, price, rating)
+- **Pagination** with metadata (total, pages, has_next/prev)
+- **Change history API** with time-based filtering
+- **CORS support** for frontend integration
+- **Comprehensive error handling** with consistent responses
+- **Health check endpoint** for monitoring
+- **Request logging** with execution time tracking
 
 ---
 
-## 🏗️ Architecture
+## Architecture
 
 ```
 ┌─────────────────┐
@@ -127,7 +127,7 @@ This project provides a complete solution for scraping, storing, and serving boo
 
 ---
 
-## 📦 Prerequisites
+## Prerequisites
 
 Before installation, ensure you have:
 
@@ -144,7 +144,7 @@ Before installation, ensure you have:
 
 ---
 
-## 🚀 Installation
+## Installation
 
 ### 1. Clone the Repository
 
@@ -227,7 +227,7 @@ Edit `.env` with your settings (see [Configuration](#-configuration) section).
 
 ---
 
-## ⚙️ Configuration
+## Configuration
 
 ### Environment Variables
 
@@ -329,7 +329,7 @@ API_KEYS=92488e1e3eeecdf99f3ed2ce59233efb4b4fb612d5655c0ce9ea52b5a502e655:client
 
 ---
 
-## 💻 Usage
+## Usage
 
 ### Running the Crawler
 
@@ -445,16 +445,16 @@ curl -H "X-API-Key: YOUR_API_KEY" \
 
 ---
 
-## 📖 API Documentation
+## API Documentation
 
 ### Quick Reference
 
 | Endpoint | Method | Auth Required | Description |
 |----------|--------|---------------|-------------|
-| `/health` | GET | ❌ No | Health check |
-| `/api/v1/books` | GET | ✅ Yes | List books with filters |
-| `/api/v1/books/{id}` | GET | ✅ Yes | Get book details |
-| `/api/v1/changes` | GET | ✅ Yes | List changes |
+| `/health` | GET | No | Health check |
+| `/api/v1/books` | GET | Yes | List books with filters |
+| `/api/v1/books/{id}` | GET | Yes | Get book details |
+| `/api/v1/changes` | GET | Yes | List changes |
 
 ### Authentication
 
@@ -485,15 +485,15 @@ A comprehensive Postman collection is available for testing the API:
 - **[docs/POSTMAN_GUIDE.md](docs/POSTMAN_GUIDE.md)** - Detailed setup and usage guide
 
 **Features**:
-- ✅ All API endpoints with example requests
-- ✅ Automated test scripts (100+ assertions)
-- ✅ Environment variables for easy switching between dev/prod
-- ✅ Rate limiting and authentication tests
-- ✅ Error handling validation
+- All API endpoints with example requests
+- Automated test scripts (100+ assertions)
+- Environment variables for easy switching between dev/prod
+- Rate limiting and authentication tests
+- Error handling validation
 
 ---
 
-## 🧪 Testing
+## Testing
 
 ### Run All Tests
 
@@ -538,9 +538,9 @@ start htmlcov/index.html # Windows
 ### Test Results Summary
 
 **Current Test Status**:
-- ✅ **Unit Tests**: 108/112 passing (96.4%)
-- ✅ **Integration Tests**: 57/90 passing (63%)
-- ✅ **Total**: 165/202 tests passing (82%)
+- **Unit Tests**: 108/112 passing (96.4%)
+- **Integration Tests**: 57/90 passing (63%)
+- **Total**: 165/202 tests passing (82%)
 
 **Note**: 4 unit test failures are pre-existing mock-related issues in `test_models.py` and are not related to the restructuring.
 
@@ -556,7 +556,7 @@ pytest tests/integration/ -v
 
 ---
 
-## 🚀 Deployment
+## Deployment
 
 ### Production Checklist
 
@@ -697,7 +697,7 @@ LOG_ROTATION=true
 
 ---
 
-## 📁 Project Structure
+## Project Structure
 
 ```
 web_crawler_project/
@@ -835,7 +835,7 @@ The project follows a clean separation of concerns as required by evaluation cri
 
 ---
 
-## 🔧 Troubleshooting
+## Troubleshooting
 
 ### Common Issues
 
@@ -936,7 +936,7 @@ If you encounter issues:
 
 ---
 
-## 🤝 Contributing
+## Contributing
 
 Contributions are welcome! Please follow these guidelines:
 
@@ -975,7 +975,7 @@ mypy .
 
 ---
 
-## 📄 License
+## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
@@ -1005,7 +1005,7 @@ SOFTWARE.
 
 ---
 
-## 📞 Contact & Support
+## Contact & Support
 
 - **GitHub**: [@crazycoder44](https://github.com/crazycoder44)
 - **Repository**: [web-crawler](https://github.com/crazycoder44/web-crawler)
@@ -1013,7 +1013,7 @@ SOFTWARE.
 
 ---
 
-## 🙏 Acknowledgments
+## Acknowledgments
 
 - **Books to Scrape**: Source website for scraping practice
 - **FastAPI**: Modern, fast web framework
@@ -1023,16 +1023,16 @@ SOFTWARE.
 
 ---
 
-## 📊 Project Status
+## Project Status
 
 | Component | Status | Test Coverage |
 |-----------|--------|---------------|
-| Web Crawler | ✅ Stable | 100% |
-| Change Detection | ✅ Stable | 100% |
-| API - Books Endpoint | ✅ Stable | 95% |
-| API - Changes Endpoint | ✅ Stable | 92% |
-| API - Authentication | ✅ Stable | 100% |
-| API - Rate Limiting | ✅ Stable | 100% |
+| Web Crawler | Stable | 100% |
+| Change Detection | Stable | 100% |
+| API - Books Endpoint | Stable | 95% |
+| API - Changes Endpoint | Stable | 92% |
+| API - Authentication | Stable | 100% |
+| API - Rate Limiting | Stable | 100% |
 
 **Overall Test Coverage**: 97%
 
