@@ -10,9 +10,9 @@ import asyncio
 from motor.motor_asyncio import AsyncIOMotorClient
 from pymongo.operations import IndexModel
 
-from scheduler.scheduler import BookScheduler
-from scheduler.jobs import SchedulerJobs
-from crawler.store import MongoStore
+from src.scheduler.scheduler import BookScheduler
+from src.scheduler.jobs import SchedulerJobs
+from src.crawler.store import MongoStore
 
 @pytest_asyncio.fixture
 async def store():

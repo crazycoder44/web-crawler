@@ -10,9 +10,9 @@ from bson import ObjectId
 import json
 
 from motor.motor_asyncio import AsyncIOMotorClient
-from scheduler.reporting import ChangeReporter
-from scheduler.notifications import NotificationManager
-from crawler.settings import Settings
+from src.scheduler.reporting import ChangeReporter
+from src.scheduler.notifications import NotificationManager
+from src.crawler.settings import Settings
 
 async def test_real_database():
     """Manual test with real MongoDB."""

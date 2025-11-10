@@ -8,9 +8,9 @@ from datetime import datetime, timedelta
 from unittest.mock import Mock, patch, AsyncMock
 from bson import ObjectId
 
-from scheduler.change_tracker import BookChangeTracker
-from scheduler.models import BookChange, DailyChangeReport
-from crawler.models import Book
+from src.scheduler.change_tracker import BookChangeTracker
+from src.scheduler.models import BookChange, DailyChangeReport
+from src.crawler.models import Book
 from pydantic import HttpUrl
 
 @pytest_asyncio.fixture(scope="function")
@@ -142,7 +142,7 @@ async def test_consolidate_old_changes(change_tracker):
 @pytest.mark.asyncio
 async def test_change_detection_empty_changes():
     """Test change detection with no changes."""
-    from crawler.models import Book
+    from src.crawler.models import Book
     from pydantic import HttpUrl
     
     now = datetime.utcnow()
@@ -174,7 +174,7 @@ async def test_change_detection_empty_changes():
 @pytest.mark.asyncio
 async def test_change_detection_new_fields():
     """Test change detection with new fields added."""
-    from crawler.models import Book
+    from src.crawler.models import Book
     from pydantic import HttpUrl
     
     now = datetime.utcnow()

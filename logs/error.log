@@ -1,0 +1,10 @@
+2025-11-10 01:01:23 - api.routes.books - [31mERROR[0m - Error fetching books: Database not connected. Ensure connect_to_mongo() was called on startup.
+File: C:\Users\ADMIN\Documents\web_crawler_project\api\routes\books.py:219
+Function: list_books
+Error fetching books: Database not connected. Ensure connect_to_mongo() was called on startup.
+Traceback (most recent call last):
+  File "C:\Users\ADMIN\Documents\web_crawler_project\api\routes\books.py", line 123, in list_books
+    db = get_database()
+  File "C:\Users\ADMIN\Documents\web_crawler_project\api\database.py", line 137, in get_database
+    raise RuntimeError(
+RuntimeError: Database not connected. Ensure connect_to_mongo() was called on startup.

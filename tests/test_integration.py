@@ -14,13 +14,13 @@ import shutil
 import json
 from unittest.mock import patch
 
-from scheduler.scheduler import BookScheduler
-from scheduler.jobs import SchedulerJobs
-from scheduler.reporting import ChangeReporter
-from scheduler.notifications import NotificationManager
-from scheduler.change_tracker import BookChangeTracker
-from scheduler.db_setup import init_scheduler_db
-from crawler.settings import Settings
+from src.scheduler.scheduler import BookScheduler
+from src.scheduler.jobs import SchedulerJobs
+from src.scheduler.reporting import ChangeReporter
+from src.scheduler.notifications import NotificationManager
+from src.scheduler.change_tracker import BookChangeTracker
+from src.scheduler.db_setup import init_scheduler_db
+from src.crawler.settings import Settings
 
 @pytest_asyncio.fixture(scope="function")
 async def event_loop():

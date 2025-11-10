@@ -1,0 +1,1882 @@
+{
+	"info": {
+		"_postman_id": "a1b2c3d4-e5f6-7890-a1b2-c3d4e5f67890",
+		"name": "Books to Scrape API",
+		"description": "Complete Postman collection for the Books to Scrape RESTful API. This collection includes all endpoints with example requests, authentication, rate limiting tests, and comprehensive test scripts.\n\n## Setup\n1. Import this collection into Postman\n2. Import the accompanying environment file (or create variables manually)\n3. Set your `api_key` in the environment variables\n4. Start making requests!\n\n## Environment Variables\n- `base_url`: API base URL (e.g., http://localhost:8000)\n- `api_key`: Your API key for authentication\n\n## Authentication\nAll endpoints (except /health) require API key authentication via the `X-API-Key` header.\n\n## Rate Limiting\nAPI enforces 100 requests per hour per API key. Check response headers:\n- `X-RateLimit-Limit`: Maximum requests allowed\n- `X-RateLimit-Remaining`: Requests remaining\n- `X-RateLimit-Reset`: Timestamp when limit resets",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "12345678"
+	},
+	"item": [
+		{
+			"name": "Health Check",
+			"item": [
+				{
+					"name": "Health Check - No Auth Required",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Response has correct structure\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.have.property('status');",
+									"    pm.expect(jsonData).to.have.property('database_connected');",
+									"    pm.expect(jsonData).to.have.property('timestamp');",
+									"});",
+									"",
+									"pm.test(\"Status is healthy\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.status).to.eql('healthy');",
+									"});",
+									"",
+									"pm.test(\"Database is connected\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.database_connected).to.be.true;",
+									"});",
+									"",
+									"pm.test(\"Response time is less than 500ms\", function () {",
+									"    pm.expect(pm.response.responseTime).to.be.below(500);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/health",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"health"
+							]
+						},
+						"description": "Check API health status. This endpoint does not require authentication and returns the current status of the API and database connection."
+					},
+					"response": []
+				}
+			],
+			"description": "Health check endpoint for monitoring API availability and database connectivity."
+		},
+		{
+			"name": "Books",
+			"item": [
+				{
+					"name": "Get All Books - Default",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Response has pagination metadata\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.have.property('items');",
+									"    pm.expect(jsonData).to.have.property('total');",
+									"    pm.expect(jsonData).to.have.property('page');",
+									"    pm.expect(jsonData).to.have.property('limit');",
+									"    pm.expect(jsonData).to.have.property('pages');",
+									"    pm.expect(jsonData).to.have.property('has_next');",
+									"    pm.expect(jsonData).to.have.property('has_prev');",
+									"});",
+									"",
+									"pm.test(\"Items array is not empty\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.items).to.be.an('array');",
+									"    pm.expect(jsonData.items.length).to.be.greaterThan(0);",
+									"});",
+									"",
+									"pm.test(\"Each book has required fields\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    var book = jsonData.items[0];",
+									"    pm.expect(book).to.have.property('id');",
+									"    pm.expect(book).to.have.property('title');",
+									"    pm.expect(book).to.have.property('price');",
+									"    pm.expect(book).to.have.property('availability');",
+									"    pm.expect(book).to.have.property('rating');",
+									"});",
+									"",
+									"pm.test(\"Rate limit headers are present\", function () {",
+									"    pm.response.to.have.header('X-RateLimit-Limit');",
+									"    pm.response.to.have.header('X-RateLimit-Remaining');",
+									"    pm.response.to.have.header('X-RateLimit-Reset');",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-API-Key",
+								"value": "{{api_key}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/v1/books",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"books"
+							]
+						},
+						"description": "Get all books with default pagination (page 1, limit 20)."
+					},
+					"response": []
+				},
+				{
+					"name": "Get Books - With Pagination",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Page is 2\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.page).to.eql(2);",
+									"});",
+									"",
+									"pm.test(\"Limit is 10\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.limit).to.eql(10);",
+									"});",
+									"",
+									"pm.test(\"Items count matches limit or less\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.items.length).to.be.at.most(10);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-API-Key",
+								"value": "{{api_key}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/v1/books?page=2&limit=10",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"books"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "2"
+								},
+								{
+									"key": "limit",
+									"value": "10"
+								}
+							]
+						},
+						"description": "Get books with custom pagination (page 2, 10 items per page)."
+					},
+					"response": []
+				},
+				{
+					"name": "Search Books by Title",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Books contain search term\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    if (jsonData.items.length > 0) {",
+									"        var searchTerm = 'sapiens';",
+									"        var found = jsonData.items.some(book => ",
+									"            book.title.toLowerCase().includes(searchTerm) || ",
+									"            (book.description && book.description.toLowerCase().includes(searchTerm))",
+									"        );",
+									"        pm.expect(found).to.be.true;",
+									"    }",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-API-Key",
+								"value": "{{api_key}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/v1/books?search=sapiens",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"books"
+							],
+							"query": [
+								{
+									"key": "search",
+									"value": "sapiens"
+								}
+							]
+						},
+						"description": "Search for books by title or description (case-insensitive)."
+					},
+					"response": []
+				},
+				{
+					"name": "Filter Books by Category",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"All books have specified category\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    if (jsonData.items.length > 0) {",
+									"        jsonData.items.forEach(book => {",
+									"            pm.expect(book.category.toLowerCase()).to.include('fiction');",
+									"        });",
+									"    }",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-API-Key",
+								"value": "{{api_key}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/v1/books?category=Fiction",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"books"
+							],
+							"query": [
+								{
+									"key": "category",
+									"value": "Fiction"
+								}
+							]
+						},
+						"description": "Filter books by category (e.g., Fiction, Mystery, History)."
+					},
+					"response": []
+				},
+				{
+					"name": "Filter Books by Price Range",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"All books within price range\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    var minPrice = 10.0;",
+									"    var maxPrice = 30.0;",
+									"    ",
+									"    jsonData.items.forEach(book => {",
+									"        pm.expect(book.price).to.be.at.least(minPrice);",
+									"        pm.expect(book.price).to.be.at.most(maxPrice);",
+									"    });",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-API-Key",
+								"value": "{{api_key}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/v1/books?min_price=10.00&max_price=30.00",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"books"
+							],
+							"query": [
+								{
+									"key": "min_price",
+									"value": "10.00"
+								},
+								{
+									"key": "max_price",
+									"value": "30.00"
+								}
+							]
+						},
+						"description": "Filter books by price range (min_price and max_price)."
+					},
+					"response": []
+				},
+				{
+					"name": "Filter Books by Rating",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"All books have specified rating\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    var targetRating = 5;",
+									"    ",
+									"    jsonData.items.forEach(book => {",
+									"        pm.expect(book.rating).to.eql(targetRating);",
+									"    });",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-API-Key",
+								"value": "{{api_key}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/v1/books?rating=5",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"books"
+							],
+							"query": [
+								{
+									"key": "rating",
+									"value": "5"
+								}
+							]
+						},
+						"description": "Filter books by rating (1-5 stars)."
+					},
+					"response": []
+				},
+				{
+					"name": "Filter Books by Availability",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"All books are in stock\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    ",
+									"    jsonData.items.forEach(book => {",
+									"        pm.expect(book.availability.toLowerCase()).to.include('in stock');",
+									"    });",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-API-Key",
+								"value": "{{api_key}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/v1/books?in_stock=true",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"books"
+							],
+							"query": [
+								{
+									"key": "in_stock",
+									"value": "true"
+								}
+							]
+						},
+						"description": "Filter books by availability (in_stock=true/false)."
+					},
+					"response": []
+				},
+				{
+					"name": "Sort Books by Price (Ascending)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Books are sorted by price ascending\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    ",
+									"    for (let i = 1; i < jsonData.items.length; i++) {",
+									"        pm.expect(jsonData.items[i].price).to.be.at.least(jsonData.items[i-1].price);",
+									"    }",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-API-Key",
+								"value": "{{api_key}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/v1/books?sort=price_asc",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"books"
+							],
+							"query": [
+								{
+									"key": "sort",
+									"value": "price_asc"
+								}
+							]
+						},
+						"description": "Sort books by price in ascending order."
+					},
+					"response": []
+				},
+				{
+					"name": "Sort Books by Price (Descending)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Books are sorted by price descending\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    ",
+									"    for (let i = 1; i < jsonData.items.length; i++) {",
+									"        pm.expect(jsonData.items[i].price).to.be.at.most(jsonData.items[i-1].price);",
+									"    }",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-API-Key",
+								"value": "{{api_key}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/v1/books?sort=price_desc",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"books"
+							],
+							"query": [
+								{
+									"key": "sort",
+									"value": "price_desc"
+								}
+							]
+						},
+						"description": "Sort books by price in descending order."
+					},
+					"response": []
+				},
+				{
+					"name": "Sort Books by Title",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-API-Key",
+								"value": "{{api_key}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/v1/books?sort=title",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"books"
+							],
+							"query": [
+								{
+									"key": "sort",
+									"value": "title"
+								}
+							]
+						},
+						"description": "Sort books alphabetically by title."
+					},
+					"response": []
+				},
+				{
+					"name": "Sort Books by Rating",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-API-Key",
+								"value": "{{api_key}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/v1/books?sort=rating",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"books"
+							],
+							"query": [
+								{
+									"key": "sort",
+									"value": "rating"
+								}
+							]
+						},
+						"description": "Sort books by rating (highest first)."
+					},
+					"response": []
+				},
+				{
+					"name": "Sort Books by Most Recent",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-API-Key",
+								"value": "{{api_key}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/v1/books?sort=recent",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"books"
+							],
+							"query": [
+								{
+									"key": "sort",
+									"value": "recent"
+								}
+							]
+						},
+						"description": "Sort books by last_updated timestamp (most recent first)."
+					},
+					"response": []
+				},
+				{
+					"name": "Complex Query - Multiple Filters",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"All filters applied correctly\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    ",
+									"    jsonData.items.forEach(book => {",
+									"        // Check category",
+									"        pm.expect(book.category.toLowerCase()).to.include('fiction');",
+									"        ",
+									"        // Check price range",
+									"        pm.expect(book.price).to.be.at.least(15.0);",
+									"        pm.expect(book.price).to.be.at.most(40.0);",
+									"        ",
+									"        // Check rating",
+									"        pm.expect(book.rating).to.be.at.least(4);",
+									"        ",
+									"        // Check availability",
+									"        pm.expect(book.availability.toLowerCase()).to.include('in stock');",
+									"    });",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-API-Key",
+								"value": "{{api_key}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/v1/books?category=Fiction&min_price=15.00&max_price=40.00&rating=4&in_stock=true&sort=price_asc&limit=10",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"books"
+							],
+							"query": [
+								{
+									"key": "category",
+									"value": "Fiction"
+								},
+								{
+									"key": "min_price",
+									"value": "15.00"
+								},
+								{
+									"key": "max_price",
+									"value": "40.00"
+								},
+								{
+									"key": "rating",
+									"value": "4"
+								},
+								{
+									"key": "in_stock",
+									"value": "true"
+								},
+								{
+									"key": "sort",
+									"value": "price_asc"
+								},
+								{
+									"key": "limit",
+									"value": "10"
+								}
+							]
+						},
+						"description": "Complex query with multiple filters: category, price range, rating, availability, and sorting."
+					},
+					"response": []
+				},
+				{
+					"name": "Get Book by ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Book has all required fields\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.have.property('id');",
+									"    pm.expect(jsonData).to.have.property('title');",
+									"    pm.expect(jsonData).to.have.property('price');",
+									"    pm.expect(jsonData).to.have.property('availability');",
+									"    pm.expect(jsonData).to.have.property('rating');",
+									"    pm.expect(jsonData).to.have.property('category');",
+									"    pm.expect(jsonData).to.have.property('product_url');",
+									"    pm.expect(jsonData).to.have.property('image_url');",
+									"});",
+									"",
+									"pm.test(\"Book has optional description field\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.have.property('description');",
+									"});",
+									"",
+									"// Save book ID for other requests",
+									"pm.environment.set('book_id', pm.response.json().id);"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"// This is a placeholder ID - replace with actual book ID from your database",
+									"// Or run \"Get All Books\" first and use the ID from the first result"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-API-Key",
+								"value": "{{api_key}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/v1/books/{{book_id}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"books",
+								"{{book_id}}"
+							]
+						},
+						"description": "Get detailed information about a specific book by its ID. Run \"Get All Books\" first to get a valid book_id, or manually set the book_id environment variable."
+					},
+					"response": []
+				},
+				{
+					"name": "Get Book by Invalid ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 404\", function () {",
+									"    pm.response.to.have.status(404);",
+									"});",
+									"",
+									"pm.test(\"Error response has correct structure\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.have.property('detail');",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-API-Key",
+								"value": "{{api_key}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/v1/books/000000000000000000000000",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"books",
+								"000000000000000000000000"
+							]
+						},
+						"description": "Test error handling when requesting a non-existent book ID."
+					},
+					"response": []
+				}
+			],
+			"description": "All endpoints related to querying book data with various filters, sorting options, and pagination."
+		},
+		{
+			"name": "Changes",
+			"item": [
+				{
+					"name": "Get All Changes - Default",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Response has pagination metadata\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.have.property('items');",
+									"    pm.expect(jsonData).to.have.property('total');",
+									"    pm.expect(jsonData).to.have.property('page');",
+									"    pm.expect(jsonData).to.have.property('limit');",
+									"});",
+									"",
+									"pm.test(\"Each change has required fields\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    if (jsonData.items.length > 0) {",
+									"        var change = jsonData.items[0];",
+									"        pm.expect(change).to.have.property('id');",
+									"        pm.expect(change).to.have.property('book_id');",
+									"        pm.expect(change).to.have.property('change_type');",
+									"        pm.expect(change).to.have.property('field_changed');",
+									"        pm.expect(change).to.have.property('timestamp');",
+									"    }",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-API-Key",
+								"value": "{{api_key}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/v1/changes",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"changes"
+							]
+						},
+						"description": "Get all tracked changes with default pagination."
+					},
+					"response": []
+				},
+				{
+					"name": "Get Changes - With Pagination",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-API-Key",
+								"value": "{{api_key}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/v1/changes?page=1&limit=50",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"changes"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "limit",
+									"value": "50"
+								}
+							]
+						},
+						"description": "Get changes with custom pagination (50 items per page)."
+					},
+					"response": []
+				},
+				{
+					"name": "Get Changes for Specific Book",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"All changes are for the specified book\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    var bookId = pm.environment.get('book_id');",
+									"    ",
+									"    jsonData.items.forEach(change => {",
+									"        pm.expect(change.book_id).to.eql(bookId);",
+									"    });",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-API-Key",
+								"value": "{{api_key}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/v1/changes?book_id={{book_id}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"changes"
+							],
+							"query": [
+								{
+									"key": "book_id",
+									"value": "{{book_id}}"
+								}
+							]
+						},
+						"description": "Get all changes for a specific book ID. Requires book_id environment variable."
+					},
+					"response": []
+				},
+				{
+					"name": "Get Changes Since Timestamp",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"All changes are after specified timestamp\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    var sinceDate = new Date('2025-11-08T00:00:00Z');",
+									"    ",
+									"    jsonData.items.forEach(change => {",
+									"        var changeDate = new Date(change.timestamp);",
+									"        pm.expect(changeDate.getTime()).to.be.at.least(sinceDate.getTime());",
+									"    });",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-API-Key",
+								"value": "{{api_key}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/v1/changes?since=2025-11-08T00:00:00Z",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"changes"
+							],
+							"query": [
+								{
+									"key": "since",
+									"value": "2025-11-08T00:00:00Z"
+								}
+							]
+						},
+						"description": "Get changes that occurred after a specific timestamp (ISO 8601 format)."
+					},
+					"response": []
+				},
+				{
+					"name": "Get Changes Until Timestamp",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-API-Key",
+								"value": "{{api_key}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/v1/changes?until=2025-11-10T23:59:59Z",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"changes"
+							],
+							"query": [
+								{
+									"key": "until",
+									"value": "2025-11-10T23:59:59Z"
+								}
+							]
+						},
+						"description": "Get changes that occurred before a specific timestamp (ISO 8601 format)."
+					},
+					"response": []
+				},
+				{
+					"name": "Get Changes in Time Range",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"All changes are within time range\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    var sinceDate = new Date('2025-11-08T00:00:00Z');",
+									"    var untilDate = new Date('2025-11-09T23:59:59Z');",
+									"    ",
+									"    jsonData.items.forEach(change => {",
+									"        var changeDate = new Date(change.timestamp);",
+									"        pm.expect(changeDate.getTime()).to.be.at.least(sinceDate.getTime());",
+									"        pm.expect(changeDate.getTime()).to.be.at.most(untilDate.getTime());",
+									"    });",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-API-Key",
+								"value": "{{api_key}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/v1/changes?since=2025-11-08T00:00:00Z&until=2025-11-09T23:59:59Z",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"changes"
+							],
+							"query": [
+								{
+									"key": "since",
+									"value": "2025-11-08T00:00:00Z"
+								},
+								{
+									"key": "until",
+									"value": "2025-11-09T23:59:59Z"
+								}
+							]
+						},
+						"description": "Get changes within a specific time range (both since and until parameters)."
+					},
+					"response": []
+				},
+				{
+					"name": "Filter Changes by Type",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"All changes are of type 'update'\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    ",
+									"    jsonData.items.forEach(change => {",
+									"        pm.expect(change.change_type).to.eql('update');",
+									"    });",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-API-Key",
+								"value": "{{api_key}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/v1/changes?change_type=update",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"changes"
+							],
+							"query": [
+								{
+									"key": "change_type",
+									"value": "update"
+								}
+							]
+						},
+						"description": "Filter changes by type (insert, update, delete)."
+					},
+					"response": []
+				},
+				{
+					"name": "Filter Changes by Field",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"All changes are for 'price' field\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    ",
+									"    jsonData.items.forEach(change => {",
+									"        pm.expect(change.field_changed).to.eql('price');",
+									"    });",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-API-Key",
+								"value": "{{api_key}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/v1/changes?field=price",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"changes"
+							],
+							"query": [
+								{
+									"key": "field",
+									"value": "price"
+								}
+							]
+						},
+						"description": "Filter changes by the field that was modified (e.g., price, availability, title)."
+					},
+					"response": []
+				},
+				{
+					"name": "Complex Changes Query",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-API-Key",
+								"value": "{{api_key}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/v1/changes?change_type=update&field=price&since=2025-11-01T00:00:00Z&limit=20",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"changes"
+							],
+							"query": [
+								{
+									"key": "change_type",
+									"value": "update"
+								},
+								{
+									"key": "field",
+									"value": "price"
+								},
+								{
+									"key": "since",
+									"value": "2025-11-01T00:00:00Z"
+								},
+								{
+									"key": "limit",
+									"value": "20"
+								}
+							]
+						},
+						"description": "Complex query: price updates since November 1st, 2025, limited to 20 results."
+					},
+					"response": []
+				}
+			],
+			"description": "All endpoints related to tracking and querying book data changes over time."
+		},
+		{
+			"name": "Authentication & Rate Limiting",
+			"item": [
+				{
+					"name": "Missing API Key",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 401\", function () {",
+									"    pm.response.to.have.status(401);",
+									"});",
+									"",
+									"pm.test(\"Error message is correct\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.detail.toLowerCase()).to.include('api key');",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/v1/books",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"books"
+							]
+						},
+						"description": "Test authentication error when API key is missing."
+					},
+					"response": []
+				},
+				{
+					"name": "Invalid API Key",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 401\", function () {",
+									"    pm.response.to.have.status(401);",
+									"});",
+									"",
+									"pm.test(\"Error message indicates invalid key\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.detail.toLowerCase()).to.include('invalid');",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-API-Key",
+								"value": "invalid-api-key-12345",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/v1/books",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"books"
+							]
+						},
+						"description": "Test authentication error when API key is invalid."
+					},
+					"response": []
+				},
+				{
+					"name": "Check Rate Limit Headers",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Rate limit headers are present\", function () {",
+									"    pm.expect(pm.response.headers.has('X-RateLimit-Limit')).to.be.true;",
+									"    pm.expect(pm.response.headers.has('X-RateLimit-Remaining')).to.be.true;",
+									"    pm.expect(pm.response.headers.has('X-RateLimit-Reset')).to.be.true;",
+									"});",
+									"",
+									"pm.test(\"Rate limit is 100\", function () {",
+									"    var limit = pm.response.headers.get('X-RateLimit-Limit');",
+									"    pm.expect(parseInt(limit)).to.eql(100);",
+									"});",
+									"",
+									"pm.test(\"Remaining requests is a valid number\", function () {",
+									"    var remaining = pm.response.headers.get('X-RateLimit-Remaining');",
+									"    pm.expect(parseInt(remaining)).to.be.at.least(0);",
+									"    pm.expect(parseInt(remaining)).to.be.at.most(100);",
+									"});",
+									"",
+									"// Save current remaining count",
+									"var remaining = pm.response.headers.get('X-RateLimit-Remaining');",
+									"pm.environment.set('rate_limit_remaining', remaining);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-API-Key",
+								"value": "{{api_key}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/v1/books?limit=1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"books"
+							],
+							"query": [
+								{
+									"key": "limit",
+									"value": "1"
+								}
+							]
+						},
+						"description": "Check that rate limit headers are correctly set in the response."
+					},
+					"response": []
+				},
+				{
+					"name": "Verify Rate Limit Decrements",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Rate limit decreased\", function () {",
+									"    var previousRemaining = parseInt(pm.environment.get('rate_limit_remaining'));",
+									"    var currentRemaining = parseInt(pm.response.headers.get('X-RateLimit-Remaining'));",
+									"    ",
+									"    // Current should be less than or equal to previous",
+									"    pm.expect(currentRemaining).to.be.at.most(previousRemaining);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-API-Key",
+								"value": "{{api_key}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/v1/books?limit=1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"books"
+							],
+							"query": [
+								{
+									"key": "limit",
+									"value": "1"
+								}
+							]
+						},
+						"description": "Verify that rate limit counter decrements with each request. Run after \"Check Rate Limit Headers\"."
+					},
+					"response": []
+				}
+			],
+			"description": "Tests for API authentication and rate limiting functionality."
+		},
+		{
+			"name": "Error Handling",
+			"item": [
+				{
+					"name": "Invalid Page Number",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 422\", function () {",
+									"    pm.response.to.have.status(422);",
+									"});",
+									"",
+									"pm.test(\"Error response has validation details\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.have.property('detail');",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-API-Key",
+								"value": "{{api_key}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/v1/books?page=0",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"books"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "0"
+								}
+							]
+						},
+						"description": "Test validation error when page number is invalid (page must be >= 1)."
+					},
+					"response": []
+				},
+				{
+					"name": "Invalid Limit",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 422\", function () {",
+									"    pm.response.to.have.status(422);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-API-Key",
+								"value": "{{api_key}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/v1/books?limit=150",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"books"
+							],
+							"query": [
+								{
+									"key": "limit",
+									"value": "150"
+								}
+							]
+						},
+						"description": "Test validation error when limit exceeds maximum (limit must be <= 100)."
+					},
+					"response": []
+				},
+				{
+					"name": "Invalid Rating",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 422\", function () {",
+									"    pm.response.to.have.status(422);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-API-Key",
+								"value": "{{api_key}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/v1/books?rating=10",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"books"
+							],
+							"query": [
+								{
+									"key": "rating",
+									"value": "10"
+								}
+							]
+						},
+						"description": "Test validation error when rating is out of range (rating must be 1-5)."
+					},
+					"response": []
+				},
+				{
+					"name": "Invalid Sort Option",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 422\", function () {",
+									"    pm.response.to.have.status(422);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-API-Key",
+								"value": "{{api_key}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/v1/books?sort=invalid_sort",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"books"
+							],
+							"query": [
+								{
+									"key": "sort",
+									"value": "invalid_sort"
+								}
+							]
+						},
+						"description": "Test validation error when sort option is invalid."
+					},
+					"response": []
+				},
+				{
+					"name": "Invalid Timestamp Format",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 422\", function () {",
+									"    pm.response.to.have.status(422);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-API-Key",
+								"value": "{{api_key}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/v1/changes?since=invalid-timestamp",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"changes"
+							],
+							"query": [
+								{
+									"key": "since",
+									"value": "invalid-timestamp"
+								}
+							]
+						},
+						"description": "Test validation error when timestamp format is invalid (must be ISO 8601)."
+					},
+					"response": []
+				},
+				{
+					"name": "Invalid Book ID Format",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 422 or 404\", function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([422, 404]);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-API-Key",
+								"value": "{{api_key}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/v1/books/invalid-id",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"books",
+								"invalid-id"
+							]
+						},
+						"description": "Test error handling when book ID format is invalid (not a valid ObjectId)."
+					},
+					"response": []
+				}
+			],
+			"description": "Tests for various error conditions and validation errors."
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					"// Global pre-request script",
+					"// You can add global setup here if needed"
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					"// Global test script",
+					"// Common assertions that apply to all requests",
+					"",
+					"pm.test(\"Response time is reasonable\", function () {",
+					"    pm.expect(pm.response.responseTime).to.be.below(5000);",
+					"});",
+					"",
+					"pm.test(\"Response has Content-Type header\", function () {",
+					"    pm.response.to.have.header('Content-Type');",
+					"});"
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://localhost:8000",
+			"type": "string"
+		},
+		{
+			"key": "api_key",
+			"value": "your-api-key-here",
+			"type": "string"
+		},
+		{
+			"key": "book_id",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "rate_limit_remaining",
+			"value": "",
+			"type": "string"
+		}
+	]
+}

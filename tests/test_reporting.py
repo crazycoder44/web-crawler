@@ -10,8 +10,8 @@ import json
 from pathlib import Path
 from bson import ObjectId
 
-from scheduler.reporting import ChangeReporter
-from scheduler.models import ChangeRecord
+from src.scheduler.reporting import ChangeReporter
+from src.scheduler.models import ChangeRecord
 
 @pytest_asyncio.fixture
 async def reporter():

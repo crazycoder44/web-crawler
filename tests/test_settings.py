@@ -6,8 +6,8 @@ import os
 import pytest
 from pathlib import Path
 from typing import Dict, Generator
-from crawler.settings import Settings as CrawlerSettings
-from scheduler.settings import Settings as SchedulerSettings
+from src.crawler.settings import Settings as CrawlerSettings
+from src.scheduler.settings import Settings as SchedulerSettings
 
 
 @pytest.fixture

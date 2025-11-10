@@ -1,5 +1,7 @@
+#!/usr/bin/env python3
 """
-Main entry point for running the scheduler service.
+Entry point for running the scheduler service.
+Manages scheduled crawling and change detection.
 """
 
 import asyncio
@@ -7,12 +9,11 @@ import logging.config
 import sys
 from pathlib import Path
 
-# Add project root to Python path
-project_root = str(Path(__file__).parent.parent)
-sys.path.insert(0, project_root)
+# Add src to path
+sys.path.insert(0, str(Path(__file__).parent))
 
-from scheduler.scheduler import run_scheduler
-from scheduler.logging_config import LOGGING_CONFIG
+from src.scheduler.scheduler import run_scheduler
+from src.scheduler.logging_config import LOGGING_CONFIG
 
 def main():
     """Configure logging and start the scheduler."""

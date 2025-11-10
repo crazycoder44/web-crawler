@@ -2,8 +2,8 @@
 import pytest
 import pytest_asyncio
 from motor.motor_asyncio import AsyncIOMotorClient
-from crawler.settings import Settings as CrawlerSettings
-from scheduler.settings import Settings as SchedulerSettings
+from src.crawler.settings import Settings as CrawlerSettings
+from src.scheduler.settings import Settings as SchedulerSettings
 import logging
 
 logging.basicConfig(level=logging.INFO)

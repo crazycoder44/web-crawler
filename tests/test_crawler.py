@@ -4,8 +4,8 @@ import logging
 from datetime import datetime
 from typing import Dict, Any
 from motor.motor_asyncio import AsyncIOMotorClient
-from crawler.runner import run_crawler
-from crawler.settings import Settings
+from src.crawler.runner import run_crawler
+from src.crawler.settings import Settings
 
 # Configure logging
 logging.basicConfig(
