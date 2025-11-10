@@ -133,7 +133,15 @@ class NotificationManager:
     
     def _setup_notification_logger(self):
         """Set up a dedicated logger for notification simulation."""
-        notifications_log = logging.FileHandler('logs/notifications.log')
+        import os
+        # Ensure logs directory exists at project root
+        logs_dir = os.path.join(
+            os.path.dirname(os.path.dirname(os.path.dirname(__file__))), 
+            'logs'
+        )
+        os.makedirs(logs_dir, exist_ok=True)
+        
+        notifications_log = logging.FileHandler(os.path.join(logs_dir, 'notifications.log'))
         notifications_log.setFormatter(
             logging.Formatter(
                 '%(asctime)s - %(levelname)s - NOTIFICATION:\n%(message)s\n'

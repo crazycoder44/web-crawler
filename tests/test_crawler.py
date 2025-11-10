@@ -12,7 +12,7 @@ logging.basicConfig(
     level=logging.INFO,
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
     handlers=[
-        logging.FileHandler('crawler_test.log'),
+        logging.FileHandler('logs/crawler_test.log'),
         logging.StreamHandler()
     ]
 )

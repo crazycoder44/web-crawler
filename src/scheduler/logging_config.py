@@ -8,8 +8,8 @@ import logging
 from logging.handlers import RotatingFileHandler
 import os
 
-# Create logs directory if it doesn't exist
-logs_dir = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'logs')
+# Create logs directory at project root (go up 3 levels: scheduler -> src -> root)
+logs_dir = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(__file__))), 'logs')
 os.makedirs(logs_dir, exist_ok=True)
 
 # Configure scheduler logger

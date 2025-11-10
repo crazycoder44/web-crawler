@@ -3623,3 +3623,25 @@ Subject: Price Alert: Test Book price changed by 25.0%
 2025-11-10 03:39:25 - api.rate_limiter - [32mINFO[0m - Rate limiting enabled: 100 requests per hour
 2025-11-10 03:39:25 - api.rate_limiter - [32mINFO[0m - Rate limiting enabled: 100 requests per hour
 2025-11-10 03:39:25 - api.rate_limiter - [32mINFO[0m - Rate limiting enabled: 100 requests per hour
+2025-11-10 04:03:49 - root - [32mINFO[0m - Logging configured: level=INFO, dir=logs
+2025-11-10 04:03:49 - src.api.exception_handlers - [32mINFO[0m - ✅ Exception handlers registered
+2025-11-10 04:03:50 - api.rate_limiter - [32mINFO[0m - Rate limiting enabled: 100 requests per hour
+2025-11-10 04:03:50 - src.api.main - [32mINFO[0m - Starting Books to Scrape API v1.0.0...
+2025-11-10 04:03:50 - src.api.main - [32mINFO[0m - Server: 0.0.0.0:8000
+2025-11-10 04:03:50 - src.api.main - [32mINFO[0m - CORS Origins: ['http://localhost:3000', 'http://localhost:8080', 'http://127.0.0.1:3000']
+2025-11-10 04:03:50 - src.api.main - [32mINFO[0m - Rate Limit: 100 req/hour
+2025-11-10 04:03:50 - api.database - [32mINFO[0m - Connecting to MongoDB...
+2025-11-10 04:03:50 - api.database - [32mINFO[0m - MongoDB URI: mongodb://localhost:27017/book...
+2025-11-10 04:03:50 - api.database - [32mINFO[0m - Successfully connected to MongoDB database: books
+2025-11-10 04:03:50 - api.database - [32mINFO[0m - Available collections: ['books', 'book_changes', 'checkpoints', 'change_records', 'schema_version', 'fs.files', 'fs.chunks']
+2025-11-10 04:03:50 - api.database - [32mINFO[0m - Books collection contains 1000 documents
+2025-11-10 04:03:50 - api.database - [32mINFO[0m - DB startup_check on books
+2025-11-10 04:03:50 - src.api.main - [32mINFO[0m - ✅ Database connection established
+2025-11-10 04:03:50 - api.rate_limiter - [32mINFO[0m - Rate limit cleanup task started
+2025-11-10 04:03:50 - src.api.main - [32mINFO[0m - ✅ Rate limit cleanup task started
+2025-11-10 04:03:50 - src.api.main - [32mINFO[0m - API startup complete
+2025-11-10 04:04:02 - src.api.main - [32mINFO[0m - Shutting down Books to Scrape API...
+2025-11-10 04:04:02 - api.database - [32mINFO[0m - Closing MongoDB connection...
+2025-11-10 04:04:03 - api.database - [32mINFO[0m - ✅ MongoDB connection closed
+2025-11-10 04:04:03 - src.api.main - [32mINFO[0m - API shutdown complete
+2025-11-10 04:04:03 - api.rate_limiter - [32mINFO[0m - Rate limit cleanup task cancelled

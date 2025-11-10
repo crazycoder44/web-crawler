@@ -23,6 +23,8 @@ build/
 *.swp
 *.swo
 
+# Unwanted Logs Directory
+src/logs/
 
 # Local development settings
 .env.local
