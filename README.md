@@ -259,7 +259,7 @@ store_html_in_gridfs=true          # Store HTML in MongoDB GridFS
 # SCHEDULER CONFIGURATION
 # ============================================================
 reports_dir=./reports               # Directory for crawl reports
-crawl_interval=3600                 # Crawl interval in seconds (1 hour)
+crawl_interval=3600                 # Not currently used (reserved for future use)
 logging_level=INFO                  # Logging level: DEBUG, INFO, WARNING, ERROR
 
 
@@ -360,18 +360,24 @@ python run_scheduler.py
 ```
 
 The scheduler will:
-- Run initial crawl immediately
-- Schedule subsequent crawls based on `crawl_interval` in `.env`
+- Start immediately and wait for scheduled times
+- Run **full site scan** daily at **2:00 AM**
+- Run **change detection** every **4 hours** (00:00, 04:00, 08:00, 12:00, 16:00, 20:00)
+- Run **maintenance tasks** daily at **3:00 AM**
+- Run **health checks** every **15 minutes**
 - Continue running until stopped (Ctrl+C)
 
 **Output:**
 ```
-2025-11-10 12:00:00 - INFO - Starting scheduled crawler...
-2025-11-10 12:00:00 - INFO - Next crawl in 3600 seconds (1.0 hours)
-2025-11-10 12:00:01 - INFO - Running crawl #1...
+2025-11-10 12:00:00 - INFO - Starting scheduler service...
+2025-11-10 12:00:00 - INFO - Scheduler started successfully
+2025-11-10 12:15:00 - INFO - Job health_check completed successfully
+2025-11-10 16:00:00 - INFO - Job change_detection completed successfully
 ...
-2025-11-10 13:00:00 - INFO - Running crawl #2...
+2025-11-11 02:00:00 - INFO - Job full_site_scan completed successfully
 ```
+
+**Note**: The `crawl_interval` setting in `.env` is available for future use but is not currently used by the scheduler. Jobs run on fixed cron schedules as shown above.
 
 ### Running the API
 
